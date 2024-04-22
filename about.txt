@@ -1,0 +1,18 @@
+<b>Developed by: Savo Topic <br></b>
+<b>WPI DS-501 <br></b>
+<b>April 2024 <br><br></b> 
+
+<b>High Level Overview:<br></b>
+This shiny application has been created to model Boston area condo price range based on user's input of condo size (in square feet), number of bathrooms and number of bedrooms. The dataset was obtained through Kaggle and originated from Zillow. The dataset contained information on 836 Boston properties listed for sale in March 2022 across several Boston neighborhoods. A linear regression method was used to train the model on 80% of the dataset and the rest was used to test the price prediction model.<br><br> 
+
+<b>Limitations:<br></b>
+The prediction model is limited to condos from 300 to 1,750 square feet, minimum 1 to maximum 3 bathrooms and same for bedrooms. This seemed reasonable and should capture most of the typical condo sizes in Boston metro and surrounding neighborhoods. 
+<br><br> 
+
+<b>Statistical Results:<br></b>
+After exploratory data analysis, i was able to visualize the data and clean it by removing outliers, for example. Using the corrplot function, i was able to generate a correlation matrix which gave me insights into how different variables relate to each other.<br>
+The initial correlation investigated was condo price vs living space where a correlation coefficient of 0.65 was obtained. That was a very promising result. After adding additional variables to the model, such as number of bathrooms and number of bedrooms, predicted vs reference price correlation coefficient obtained was 0.73, which is a much better result.<br><br>  
+
+<b>Potential Improvements:<br></b>
+Further improvements of the model could involve for example, increasing the training data set size and further separating dataset per zip-code (i.e, per Boston neighborhood). 
+
