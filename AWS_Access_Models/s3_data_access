@@ -1,0 +1,29 @@
+import boto3
+import os
+
+cert_path = "/home/sagemaker-user/podcasts/aws_access/ZscalerRootCA.crt"
+assert os.path.isfile(cert_path), f"Cert file not found: {cert_path}"
+os.environ["AWS_CA_BUNDLE"] = cert_path
+
+
+def list_s3_folders(bucket_name):
+    s3 = boto3.client(
+        's3',
+        aws_access_key_id='ASIA2UC3DYQNMS6LKPPG',
+        aws_secret_access_key='akGJBRwv8WHE3ZL/mZ0S6eMB4x8MyiCLxQcuSCyQ',
+        aws_session_token='IQoJb3JpZ2luX2VjEE4aCXVzLWVhc3QtMSJGMEQCIH4RmlkHhg7g2q7xceENJtvV9e+9b6Ax+IhSNFqRSp6nAiA1e2lUc1QFhGlBtABIyfA0vlRqMnQIVk4D91IsS7jRNSqSAwjW//////////8BEAAaDDczMDMzNTUyNzk2MiIMF/0AbivzVn3yelZAKuYCqY5CH5f0Oxmvz16Iecq8AxP92peaU3j2GPRXp6SMTAjLE9M/LygAQhucvLWdLG7+8FlQOP7ycQDcHj6gdZnTXjeXYSeSK2ykB6pUH4NgQARyKEmYpJqXJNp4Ma8WTk+qcdtOf81HzHlGYXgZVd+HhidkhQJmev46/z+bAZ8xCox5kSTtN3UncrOC8uNT+HfgbF6G4Wa8eVDJCmhoCBICb5b16c6TjgUhdxeqm29+rWCDbfYpx/4I5KW66VP2/lD5CRY0SG3P7K33OKixlG0tC118VFLQy+0M4TVy/Pp9ue8beDQoVQhjyEWGJW4zPlMs78TQ/qJGkjPxFKqG8Rn9w2rS2z06uG12doGh9zf55Hw5IJAat83y13/cfFPSwnRnj0vrpNBkq0gZOXfARRjzBJn5zjx3/Z7F1lXVY5JKgijDum6dkAYDROesHlBh90EI46JXJrv6c18ZM0xIvCNCZQPScpOrUjDHqZ7ABjqnAczWup52jnO9uAmr8Hb/lJfFT+np76gd5sBoNSEUxB2FX2v9meOtbq+UAWssEO1lBzjxJp8D5pMEQ9JcJ5tH6NWeawjLImoh+hDiYksGJEbGdyqL2bdPBw4+lbaj1Lif9ikmAYUf+669zCxPf+DN8gXkSJcXBtsTZlHdBC9dhKcA+mpddh2SfoIMr3LWGDF0OXgdRgcbJUk0OZwWUlxDgm0nQg9K6y/i'
+        # region_name='us-east-1'
+    )
+    
+    paginator = s3.get_paginator('list_objects_v2')
+    result = paginator.paginate(Bucket=bucket_name, Delimiter='/')
+    
+    print(f"Top-level folders in bucket '{bucket_name}':")
+    for page in result:
+        for common_prefix in page.get('CommonPrefixes', []):
+            print(common_prefix['Prefix'])
+
+# Call
+bucket_name = 'shinrai-poc-us-east-1'
+list_s3_folders(bucket_name)
+

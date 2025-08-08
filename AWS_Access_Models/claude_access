@@ -1,0 +1,38 @@
+import boto3
+import json
+
+# Initialize the Bedrock Runtime client
+bedrock = boto3.client(service_name='bedrock-runtime', region_name='us-east-1')
+
+# Claude 3 Sonnet model ID
+model_id = "anthropic.claude-3-sonnet-20240229-v1:0"
+#model_id = "anthropic.claude-3-haiku-20240307-v1:0"
+
+
+# Construct the messages payload
+body = {
+    "anthropic_version": "bedrock-2023-05-31",  # ✅ Required field
+    "messages": [
+        {
+            "role": "user",
+            "content": "who is the current president?"
+        }
+    ],
+    "max_tokens": 300,
+    "temperature": 0.7,
+    "top_k": 250,
+    "top_p": 1
+}
+
+# Send the request
+response = bedrock.invoke_model(
+    modelId=model_id,
+    contentType="application/json",
+    accept="application/json",
+    body=json.dumps(body)
+)
+
+# Parse and print the response
+response_body = json.loads(response['body'].read())
+print(response_body['content'][0]['text'])
+
